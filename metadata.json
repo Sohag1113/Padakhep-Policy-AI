@@ -1,0 +1,6 @@
+{
+  "name": "Padakhep Policy AI",
+  "description": "A company-restricted AI chatbot that allows users to ask questions based on company policies, ensuring answers come only from approved documents.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

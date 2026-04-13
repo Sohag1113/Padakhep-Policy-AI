@@ -1,0 +1,90 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required, email format)
+    //   - role: string (required, enum: ['admin', 'user'])
+    //   - displayName: string (optional)
+    //
+    // Collection: policies
+    // Document ID: {policyId}
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required)
+    //   - content: string (required)
+    //   - uploadDate: string (required, ISO date)
+    //   - uploadedBy: string (required, UID)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        ((request.auth.token.email == "shohagsarker1113@gmail.com" && request.auth.token.email_verified == true) ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) &&
+             data.uid is string &&
+             data.email is string &&
+             data.role in ['admin', 'user'];
+    }
+
+    function isValidPolicy(data) {
+      return data.keys().hasAll(['id', 'name', 'content', 'department', 'uploadDate', 'uploadedBy']) &&
+             data.id is string &&
+             data.name is string &&
+             data.content is string &&
+             data.department is string &&
+             data.content.size() < 1000000; // 1MB limit check
+    }
+
+    function isValidSettings(data) {
+      return data.keys().hasAll(['companyName']) &&
+             data.companyName is string && data.companyName.size() > 0 && data.companyName.size() < 100 &&
+             (!('companyShortName' in data) || (data.companyShortName is string && data.companyShortName.size() < 50));
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isAdmin());
+      allow create: if isAuthenticated() && isOwner(userId) && isValidUser(request.resource.data) && 
+        (request.resource.data.role == 'user' || (request.resource.data.role == 'admin' && request.auth.token.email == "shohagsarker1113@gmail.com"));
+      allow update: if isAuthenticated() && (isOwner(userId) || isAdmin()) && isValidUser(request.resource.data);
+    }
+
+    match /policies/{policyId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAdmin() && isValidPolicy(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true; // Publicly readable for branding
+      allow write: if isAdmin() && isValidSettings(request.resource.data);
+    }
+  }
+}

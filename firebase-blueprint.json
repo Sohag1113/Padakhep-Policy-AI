@@ -1,0 +1,58 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user role and basic information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "displayName": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "PolicyDocument": {
+      "title": "Policy Document",
+      "description": "Stores company policy text and metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "content": { "type": "string" },
+        "department": { "type": "string" },
+        "uploadDate": { "type": "string", "format": "date-time" },
+        "uploadedBy": { "type": "string" }
+      },
+      "required": ["id", "name", "content", "department", "uploadDate", "uploadedBy"]
+    },
+    "CompanySettings": {
+      "title": "Company Settings",
+      "description": "Stores company branding and contact information",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string" },
+        "companyShortName": { "type": "string" },
+        "companyAddress": { "type": "string" },
+        "companyContact": { "type": "string" },
+        "companyEmail": { "type": "string", "format": "email" },
+        "logoUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["companyName"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents"
+    },
+    "/policies/{policyId}": {
+      "schema": "PolicyDocument",
+      "description": "Company policy documents"
+    },
+    "/settings/company": {
+      "schema": "CompanySettings",
+      "description": "Global company settings"
+    }
+  }
+}
