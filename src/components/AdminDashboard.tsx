@@ -26,7 +26,7 @@ import {
 import { PolicyDocument, CompanySettings } from '../types';
 import { format } from 'date-fns';
 import { cn } from '@/src/lib/utils';
-import { extractTextFromPdf } from '../lib/pdfUtils';
+import { extractTextFromPdf, extractTextFromWord } from '../lib/pdfUtils';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface AdminDashboardProps {
@@ -133,6 +133,9 @@ export default function AdminDashboard({ policies, onUpload, onDelete, role, onO
     try {
       if (file.type === 'application/pdf') {
         const text = await extractTextFromPdf(file);
+        setUploadContent(text);
+      } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.name.endsWith('.docx')) {
+        const text = await extractTextFromWord(file);
         setUploadContent(text);
       } else {
         const reader = new FileReader();
@@ -356,11 +359,11 @@ export default function AdminDashboard({ policies, onUpload, onDelete, role, onO
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Upload File (PDF/Text/Markdown)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Upload File (PDF/Word/Text/Markdown)</label>
                   <div className="relative">
                     <input
                       type="file"
-                      accept=".pdf,.txt,.md"
+                      accept=".pdf,.docx,.txt,.md"
                       onChange={handleFileChange}
                       className="w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition-all cursor-pointer"
                     />
@@ -374,14 +377,29 @@ export default function AdminDashboard({ policies, onUpload, onDelete, role, onO
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Content Preview</label>
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-medium text-gray-700">Content Preview</label>
+                    <span className={cn(
+                      "text-[10px] font-bold px-2 py-0.5 rounded-full",
+                      uploadContent.length > 0 ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"
+                    )}>
+                      {uploadContent.length} characters extracted
+                    </span>
+                  </div>
                   <textarea
                     value={uploadContent}
                     onChange={(e) => setUploadContent(e.target.value)}
-                    className="w-full h-64 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#312e81] outline-none font-mono text-sm leading-relaxed"
+                    className="w-full h-64 p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#312e81] outline-none text-sm leading-relaxed"
+                    style={{ fontFamily: '"Hind Siliguri", "Noto Sans Bengali", "Mina", "Inter", sans-serif' }}
                     placeholder="Paste policy content here if not uploading a file..."
                     required
                   />
+                  {uploadContent.length > 0 && uploadContent.length < 50 && (
+                    <p className="mt-2 text-xs text-amber-600 flex items-center gap-1">
+                      <AlertTriangle className="w-3 h-3" />
+                      Extracted text seems very short. Please verify the content.
+                    </p>
+                  )}
                 </div>
 
                 <button

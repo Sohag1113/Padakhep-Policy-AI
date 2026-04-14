@@ -65,12 +65,15 @@ export default function ChatInterface({ messages, onSendMessage, isLoading }: Ch
                 {msg.role === 'user' ? <User className="w-5 h-5" /> : <Bot className="w-5 h-5" />}
               </div>
               
-              <div className={cn(
-                "p-4 rounded-2xl text-sm leading-relaxed shadow-sm",
-                msg.role === 'user' 
-                  ? "bg-[#312e81] text-white rounded-tr-none" 
-                  : "bg-white text-gray-800 border border-gray-100 rounded-tl-none"
-              )}>
+              <div 
+                className={cn(
+                  "p-4 rounded-2xl text-sm leading-relaxed shadow-sm",
+                  msg.role === 'user' 
+                    ? "bg-[#312e81] text-white rounded-tr-none" 
+                    : "bg-white text-gray-800 border border-gray-100 rounded-tl-none"
+                )}
+                style={{ fontFamily: '"Hind Siliguri", "Noto Sans Bengali", "Mina", "Inter", sans-serif' }}
+              >
                 {msg.content}
               </div>
             </motion.div>
@@ -98,6 +101,7 @@ export default function ChatInterface({ messages, onSendMessage, isLoading }: Ch
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question here..."
             className="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#312e81] focus:border-transparent transition-all"
+            style={{ fontFamily: '"Hind Siliguri", "Noto Sans Bengali", "Mina", "Inter", sans-serif' }}
             disabled={isLoading}
           />
           <button

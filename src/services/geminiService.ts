@@ -19,10 +19,12 @@ export async function askPolicyQuestion(question: string, policies: PolicyDocume
     
     Guidelines:
     1. If the answer is in the policies, provide a clear and concise answer.
-    2. If the answer is NOT in the policies, politely state that you don't have information on that topic and suggest they contact HR.
-    3. Do not make up information or use outside knowledge.
-    4. Maintain a professional and helpful tone.
-    5. If multiple policies are relevant, mention them.
+    2. If the user asks in Bangla, respond in Bangla. If they ask in English, respond in English.
+    3. If the answer is NOT in the policies, politely state that you don't have information on that topic and suggest they contact HR.
+    4. Do not make up information or use outside knowledge.
+    5. Maintain a professional and helpful tone.
+    6. If multiple policies are relevant, mention them.
+    7. The policies might be in Bangla or English; you should be able to understand and reference both.
   `;
 
   const prompt = `
