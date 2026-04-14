@@ -10,7 +10,7 @@ export default function Footer({ settings }: FooterProps) {
   const companyEmail = settings?.companyEmail || "support@padakhep.org";
 
   return (
-    <footer className="bg-white border-t border-gray-200 py-8 px-8 mt-auto">
+    <footer className="bg-white border-t border-gray-200 py-4 px-8 mt-auto">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

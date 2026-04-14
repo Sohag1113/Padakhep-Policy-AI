@@ -15,7 +15,7 @@ export default function Header({ userEmail, onLogout, settings }: HeaderProps) {
   const logoUrl = settings?.logoUrl;
 
   return (
-    <header className="bg-[#312e81]/95 backdrop-blur-md text-white py-5 px-8 flex justify-between items-center shadow-lg border-b border-white/10 sticky top-0 z-[50]">
+    <header className="bg-[#312e81]/95 backdrop-blur-md text-white py-3 px-8 flex justify-between items-center shadow-lg border-b border-white/10 sticky top-0 z-[50]">
       <div className="flex items-center gap-4 group cursor-pointer">
         <div className="bg-white p-2.5 rounded-xl shadow-lg group-hover:scale-110 transition-transform overflow-hidden flex items-center justify-center">
           {logoUrl ? (

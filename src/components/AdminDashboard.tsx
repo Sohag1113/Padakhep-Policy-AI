@@ -154,10 +154,10 @@ export default function AdminDashboard({ policies, onUpload, onDelete, role, onO
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       {/* Horizontal Menu */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="flex flex-col md:flex-row items-center justify-between px-6 py-4 border-b border-gray-100 bg-gray-50/50 gap-4">
+        <div className="flex flex-col md:flex-row items-center justify-between px-6 py-3 border-b border-gray-100 bg-gray-50/50 gap-4">
           <h3 className="font-bold text-gray-900 flex items-center gap-2 whitespace-nowrap">
             <Shield className="w-5 h-5 text-[#312e81]" />
             {role === 'admin' ? 'Admin Panel' : 'User Panel'}
@@ -239,10 +239,10 @@ export default function AdminDashboard({ policies, onUpload, onDelete, role, onO
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="space-y-8"
+              className="space-y-6"
             >
               {/* Welcome Banner */}
-              <div className="bg-[#312e81] rounded-[2rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+              <div className="bg-[#312e81] rounded-[2rem] p-6 md:p-8 text-white relative overflow-hidden shadow-2xl">
                 <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl" />
                 <div className="relative z-10 max-w-2xl">
                   <h2 className="text-3xl md:text-4xl font-black mb-4">

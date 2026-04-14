@@ -453,7 +453,7 @@ export default function App() {
       {!isChatOpen && <Header userEmail={user.email || ""} onLogout={handleLogout} settings={settings} />}
       
       <main className={cn(
-        "flex-1 max-w-7xl w-full mx-auto p-4 md:p-10 transition-all",
+        "flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 transition-all",
         isChatOpen ? "p-0 md:p-4 max-w-none" : ""
       )}>
         <AnimatePresence mode="wait">
@@ -475,7 +475,7 @@ export default function App() {
               </button>
 
               <div className="flex-1 flex flex-col min-h-0 bg-gray-50/50">
-                <div className="p-6 md:p-10 bg-white border-b border-gray-100 flex-shrink-0 text-center relative overflow-hidden">
+                <div className="p-4 md:p-6 bg-white border-b border-gray-100 flex-shrink-0 text-center relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-full h-1 bg-[#312e81]"></div>
                   <h4 className="text-2xl md:text-3xl font-black text-gray-900">{settings.companyName} Policy AI</h4>
                   <p className="text-gray-500 font-medium mt-1">Intelligent Policy Assistant</p>
